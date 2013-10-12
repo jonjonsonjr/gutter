@@ -16,7 +16,7 @@ svg.append('svg:circle')
 
 
 function loadPage() {
-    $.get('/?q=http://www.google.com', function (data) {
+    $.get('/url?q=http://www.google.com', function (data) {
         console.log(data);
     })
     .fail(function (err) {
