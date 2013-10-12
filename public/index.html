@@ -9,7 +9,6 @@
   }
   
   .node {
-    fill: #aaa;
     stroke: #fff;
     stroke-width: 1.5px;
     cursor: pointer;
@@ -19,12 +18,16 @@
     stroke: #aaa;
     stroke-width: 1.5px;
   }
+
+  #url {
+    width: 100%;
+  }
   </style>
 </head>
 <body>
   <div class="main">
     <a href="https://github.com/jonjonsonjr/gutter"><h1>gutter</h1></a>
-    <input type="text" id="url" value="http://www.google.com">
+    <input type="text" id="url" value="https://www.github.com">
     <button id="submit">Crawl</button>
     <div id="graph"></div>
     <p id="display"></p>
@@ -33,7 +36,7 @@
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script src="app.js"></script>
   <script>
-    load('http://www.google.com');
+    load('https://www.github.com');
     $('#submit').on('click', function (e) {
       load($('#url').val());
     });

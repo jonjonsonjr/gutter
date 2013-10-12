@@ -12,21 +12,45 @@ app.get('/url', function (req, res) {
   console.log(url);
 
   phantom.create(function (err, ph) {
-    ph.createPage(function (err, page) {
-      page.open(url, function (err, status) {
+    if (err) {
+      res.end();
+      ph.close();
+      return console.log(err);
+    }
+
+    return ph.createPage(function (err, page) {
+      if (err) {
+        res.end();
+        ph.exit();
+        return console.log(err);
+      }
+      return page.open(url, function (err, status) {
         page.includeJs('http://localhost:3000/jquery-2.0.3.min.js', function (err) {
-          if (err) console.log(err);
-          page.evaluate(function () {
-            var arr = [];
+          if (err) {
+            res.end();
+            ph.exit();
+            return console.log(err);
+          }
+          return page.evaluate(function () {
+            var hrefs = [];
+
             $('a').each(function (i, a) {
-              arr.push(a.href);
+              if ($.inArray(a.href, hrefs) === -1) {
+                hrefs.push(a.href);
+              }
             });
 
-            return $.unique(arr);
+            return hrefs;
           }, function (err, data) {
-            if (err) console.log(data);
+            if (err) {
+              res.end();
+              ph.exit();
+              return console.log(err);
+            }
+
             res.json(data);
-            console.log(data); 
+            console.log(data);
+            ph.exit();
           });
         });
       });
