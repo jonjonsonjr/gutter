@@ -11,6 +11,8 @@ var history = [];
 
 function load(url) {
   visited.push(url);
+  history.push(url);
+
   rootURL = url;
   displayURL.val(url);
   $.get('/url?q=' + url, function (data) {

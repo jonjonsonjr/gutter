@@ -21,8 +21,12 @@ app.get('/url', function (req, res) {
             var hrefs = [];
 
             $('a').each(function (i, a) {
-              if ($.inArray(a.href, hrefs) === -1) {
-                hrefs.push(a.href);
+              var href = a.href;
+              var hash = href.indexOf('#');
+              if (hash !== -1) href = href.substring(0, hash);
+
+              if ($.inArray(href, hrefs) === -1) {
+                hrefs.push(href);
               }
             });
 
