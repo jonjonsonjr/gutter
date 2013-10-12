@@ -7,18 +7,35 @@
     left: 50%;
     margin-left: -400px;
   }
+  
+  .node {
+    fill: #aaa;
+    stroke: #fff;
+    stroke-width: 1.5px;
+    cursor: pointer;
+  }
+
+  .link {
+    stroke: #aaa;
+    stroke-width: 1.5px;
+  }
   </style>
 </head>
 <body>
   <div class="main">
     <a href="https://github.com/jonjonsonjr/gutter"><h1>gutter</h1></a>
-    <form>
-        <input type="text"></input>
-        <button id="submit">Crawl</button>
-    </form>
+    <input type="text" id="url" value="http://www.google.com">
+    <button id="submit">Crawl</button>
     <div id="graph"></div>
+    <p id="display"></p>
   </div>
   <script src="jquery-2.0.3.min.js"></script>
-  <script src="d3.min.js"></script>
+  <script src="http://d3js.org/d3.v3.min.js"></script>
   <script src="app.js"></script>
+  <script>
+    load('http://www.google.com');
+    $('#submit').on('click', function (e) {
+      load($('#url').val());
+    });
+  </script>
 </body>
