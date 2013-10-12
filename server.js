@@ -1,36 +1,22 @@
 var express = require('express');
-var requests = require('request');
 var phantom = require('node-phantom');
-var fs = require('fs');
-var util = require('util');
 var app = express();
 
 app.use(express.static(__dirname + '/public'));
 
 app.get('/url', function (req, res) {
   var url = req.query.q;
-  console.log(url);
-
+  
   phantom.create(function (err, ph) {
-    if (err) {
-      res.end();
-      ph.close();
-      return console.log(err);
-    }
+    if (err) return error(res, err, ph);
 
     return ph.createPage(function (err, page) {
-      if (err) {
-        res.end();
-        ph.exit();
-        return console.log(err);
-      }
+      if (err) return error(res, err, ph);
+      
       return page.open(url, function (err, status) {
         page.includeJs('http://localhost:3000/jquery-2.0.3.min.js', function (err) {
-          if (err) {
-            res.end();
-            ph.exit();
-            return console.log(err);
-          }
+          if (err) return error(res, err, ph);
+          
           return page.evaluate(function () {
             var hrefs = [];
 
@@ -42,14 +28,10 @@ app.get('/url', function (req, res) {
 
             return hrefs;
           }, function (err, data) {
-            if (err) {
-              res.end();
-              ph.exit();
-              return console.log(err);
-            }
+            if (err) return error(res, err, ph);
 
+            console.log(url + ' - ' + data.length);
             res.json(data);
-            console.log(data);
             ph.exit();
           });
         });
@@ -57,5 +39,11 @@ app.get('/url', function (req, res) {
     });
   });
 });
+
+function error(res, err, ph) {
+  res.end();
+  ph.exit();
+  return console.log(err);
+}
 
 app.listen(3000);
