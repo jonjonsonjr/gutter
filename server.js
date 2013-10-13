@@ -25,7 +25,7 @@ app.get('/url', function (req, res) {
               var hash = href.indexOf('#');
               if (hash !== -1) href = href.substring(0, hash);
 
-              if ($.inArray(href, hrefs) === -1 && href.startsWith('http')) {
+              if (($.inArray(href, hrefs) === -1) && (href.substring(0, 4) == 'http')) {
                 hrefs.push(href);
               }
             });
