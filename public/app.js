@@ -1,8 +1,8 @@
 var graph = d3.select('#graph');
 var display = document.getElementById('display');
-var width = 800;
+var width = 600;
 var height = 600;
-var r = 250;
+var r = 300;
 var displayURL = $('#url');
 var rootURL = displayURL.val();
 var visited = [];
@@ -33,7 +33,12 @@ function draw(data) {
   });
   
   var nodes = data.map(function (d, i) {
-    var theta = i / data.length * Math.PI * 2;
+    var theta = (i / data.length) * Math.PI * 2;
+    nodeRadius = r * (Math.PI / data.length);
+    r = 300 - nodeRadius * Math.PI;
+    nodeRadius = r * (Math.PI / data.length);
+    nodeRadius = Math.min(nodeRadius, 33);
+
     var offset = (i % 2 == 1) ? 0 : nodeRadius * 2;
     return {
       x: width / 2 + (r + offset) * Math.cos(theta),
