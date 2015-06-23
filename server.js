@@ -50,4 +50,12 @@ function error(res, err, ph) {
   return console.log(err);
 }
 
+
+process.on('SIGINT', function() {
+  console.log("\nStopping gutter...");
+  process.exit();
+});
+
+console.log("Starting gutter...");
+
 app.listen(3000);
